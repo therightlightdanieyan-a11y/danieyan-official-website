@@ -272,6 +272,36 @@
   font-size: 40px;
   cursor: pointer;
 }
+  
+.photo-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(216, 183, 101, 0.85);
+  color: #111;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10001;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.photo-nav:hover {
+  background: #ffffff;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prev-photo {
+  left: 25px;
+}
+
+.next-photo {
+  right: 25px;
+}
+  
 @media (max-width: 600px) {
   nav {
     display: flex;
@@ -527,18 +557,59 @@
     <p>© 2026 Thanrwicho Danieyan TK. All rights reserved.</p>
     <p>Golden Voice Bway | Official Artist Website</p>
   </footer>
-  <div id="photoViewer" class="photo-viewer" onclick="closePhoto()">
+ 
+<div id="photoViewer" class="photo-viewer" onclick="closePhoto()">
+
   <span class="close-viewer" onclick="closePhoto()">&times;</span>
+
+  <button class="photo-nav prev-photo"
+          onclick="event.stopPropagation(); previousPhoto()">
+    &#10094;
+  </button>
+
   <img id="fullPhoto"
        src=""
        alt="Expanded artist photo"
        onclick="event.stopPropagation()">
+
+  <button class="photo-nav next-photo"
+          onclick="event.stopPropagation(); nextPhoto()">
+    &#10095;
+  </button>
+
 </div>
 
 <script>
+
+const galleryPhotos = Array.from(
+  document.querySelectorAll(".gallery-photos img")
+);
+
+let currentPhotoIndex = 0;
+
 function openPhoto(photoSource) {
+  currentPhotoIndex = galleryPhotos.findIndex(
+    photo => photo.src === photoSource
+  );
+
   document.getElementById("fullPhoto").src = photoSource;
   document.getElementById("photoViewer").style.display = "flex";
+}
+
+function showPhoto(index) {
+  currentPhotoIndex =
+    (index + galleryPhotos.length) % galleryPhotos.length;
+
+  document.getElementById("fullPhoto").src =
+    galleryPhotos[currentPhotoIndex].src;
+}
+
+function nextPhoto() {
+  showPhoto(currentPhotoIndex + 1);
+}
+
+function previousPhoto() {
+  showPhoto(currentPhotoIndex - 1);
 }
 
 function closePhoto() {
@@ -550,7 +621,16 @@ document.addEventListener("keydown", function(event) {
   if (event.key === "Escape") {
     closePhoto();
   }
+
+  if (event.key === "ArrowRight") {
+    nextPhoto();
+  }
+
+  if (event.key === "ArrowLeft") {
+    previousPhoto();
+  }
 });
+
 </script>
 
 
