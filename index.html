@@ -528,13 +528,28 @@
     <p>Golden Voice Bway | Official Artist Website</p>
   </footer>
   <div id="photoViewer" class="photo-viewer" onclick="closePhoto()">
-  <span class="close-viewer">&times;</span>
-  <img id="fullPhoto" src="" alt="Expanded artist photo">
+  <span class="close-viewer" onclick="closePhoto()">&times;</span>
+  <img id="fullPhoto"
+       src=""
+       alt="Expanded artist photo"
+       onclick="event.stopPropagation()">
 </div>
 <script>
 function openPhoto(photoSource) {
   document.getElementById("fullPhoto").src = photoSource;
   document.getElementById("photoViewer").style.display = "flex";
+}
+
+function closePhoto() {
+  document.getElementById("photoViewer").style.display = "none";
+  document.getElementById("fullPhoto").src = "";
+}
+
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Escape") {
+    closePhoto();
+  }
+});
 }
 
 function closePhoto() {
