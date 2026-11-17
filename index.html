@@ -534,6 +534,7 @@
        alt="Expanded artist photo"
        onclick="event.stopPropagation()">
 </div>
+
 <script>
 function openPhoto(photoSource) {
   document.getElementById("fullPhoto").src = photoSource;
@@ -550,12 +551,6 @@ document.addEventListener("keydown", function(event) {
     closePhoto();
   }
 });
-}
-
-function closePhoto() {
-  document.getElementById("photoViewer").style.display = "none";
-  document.getElementById("fullPhoto").src = "";
-}
 </script>
 
 
